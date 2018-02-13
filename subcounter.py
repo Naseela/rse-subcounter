@@ -24,5 +24,9 @@ df["Sub month"]=df["Sub date"].map(lambda x: x.lstrip('0123456789').rstrip())
 # Group months and create new column from the amount of times the group appears.
 df["Sub count"] = df.groupby(df["Sub month"])["Sub month"].transform('count')
 
-print(df[["Sub month","Sub count"]])
+# Removes all duplicate rows from the data frame.
+df.drop_duplicates(subset="Sub month", inplace=True)
+
+
+print(df)
 
