@@ -27,6 +27,11 @@ df["Sub count"] = df.groupby(df["Sub month"])["Sub month"].transform('count')
 # Removes all duplicate rows from the data frame.
 df.drop_duplicates(subset="Sub month", inplace=True)
 
+# Create a new data frame containing only the necessary columns.
+subdf = df[["Sub month","Sub count"]].copy()
 
-print(df)
+# Export the new data frame into a csv file.
+subdf.to_csv('Subscription_count.csv')
+
+print(subdf)
 
