@@ -9,6 +9,7 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
+import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
@@ -33,5 +34,8 @@ subdf = df[["Sub month","Sub count"]].copy()
 # Export the new data frame into a csv file.
 subdf.to_csv('Subscription_count.csv')
 
-print(subdf)
+print(df)
 
+df.plot(x="Sub month", y="Sub count")
+
+plt.savefig("Visualisation.png")
