@@ -36,6 +36,14 @@ subdf.to_csv('Subscription_count.csv')
 
 print(df)
 
-df.plot(x="Sub month", y="Sub count")
+# Plot data into line graph with setttings
+subdf.plot(x="Sub month", y="Sub count", kind='line', title="Subscriptions per Month", legend=False, color="r")
 
+# Format settings on axis.
+plt.xticks(range(len(subdf)),df["Sub month"],size="small",rotation=270)
+plt.xlabel("Month")
+plt.ylabel("Subscriptions")
+plt.tight_layout()
+
+# Export to png file.
 plt.savefig("Visualisation.png")
