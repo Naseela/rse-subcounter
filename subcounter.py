@@ -21,26 +21,31 @@ df = pd.read_csv("RSE_members.csv")
 # Map function lambda which removes preceeding numerical values from sub dates.
 df["Sub month"]=df["Sub date"].map(lambda x: x.lstrip('0123456789').rstrip())
 
+# Convert string into datetime data type then format and overwrite column.
+df["Month"]=pd.to_datetime(df["Sub month"])
+df["Month"]=df["Month"].dt.strftime('%m/%Y')
+
 # Count the subscriptions per month.
 # Group months and create new column from the amount of times the group appears.
-df["Sub count"] = df.groupby(df["Sub month"])["Sub month"].transform('count')
+df["Sub count"] = df.groupby(df["Month"])["Month"].transform('count')
 
 # Removes all duplicate rows from the data frame.
-df.drop_duplicates(subset="Sub month", inplace=True)
+df.drop_duplicates(subset="Month", inplace=True)
 
 # Create a new data frame containing only the necessary columns.
-subdf = df[["Sub month","Sub count"]].copy()
+subdf = df[["Month","Sub count"]].copy()
 
+print (subdf)
 # Export the new data frame into a csv file.
 subdf.to_csv('Subscription_count.csv')
 
-print(df)
-
 # Plot data into line graph with setttings
-subdf.plot(x="Sub month", y="Sub count", kind='line', title="Subscriptions per Month", legend=False, color="r")
+subdf.plot(x="Month", y="Sub count", kind='line', title="Subscriptions per Month", legend=False, color="r")
 
 # Format settings on axis.
-plt.xticks(range(len(subdf)),df["Sub month"],size="small",rotation=270)
+plt.xticks(range(len(subdf)),df["Month"],size="small",rotation=270)
+
+plt.xticks(np.arange(0,len(subdf)+1, 1.0))
 plt.xlabel("Month")
 plt.ylabel("Subscriptions")
 plt.tight_layout()
@@ -52,15 +57,18 @@ plt.savefig("Subscription_count.png")
 subdf["Total"]= subdf["Sub count"].cumsum()
 
 # Create a new data frame from the sub data frame with desire columns.
-cumdf = subdf[["Sub month","Total"]].copy()
+cumdf = subdf[["Month","Total"]].copy()
+
 
 # Plot a graph of the total subscribers.
-cumdf.plot(x="Sub month",y="Total",kind='line', title="Total Subscribers",legend=False,color="b")
+cumdf.plot(x="Month",y="Total",kind='line', title="Total Subscribers",legend=False,color="b")
+
 
 # Format the graph and axis.
-plt.xticks(range(len(cumdf)),cumdf["Sub month"],size="small",rotation=270)
+plt.xticks(range(len(cumdf)),cumdf["Month"],size="small",rotation=270)
 plt.xlabel("Month")
 plt.ylabel("Total Subscribers")
+
 plt.tight_layout()
 
 # Export data frame into image.
