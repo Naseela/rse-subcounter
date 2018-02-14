@@ -47,3 +47,11 @@ plt.tight_layout()
 
 # Export to png file.
 plt.savefig("Visualisation.png")
+
+# Create a new column for the cumulative sum in the sub data frame.
+subdf["Total"]= subdf["Sub count"].cumsum()
+
+# Create a new data frame from the sub data frame with desire columns.
+cumdf = subdf[["Sub month","Total"]].copy()
+
+print(cumdf)
