@@ -46,12 +46,24 @@ plt.ylabel("Subscriptions")
 plt.tight_layout()
 
 # Export to png file.
-plt.savefig("Visualisation.png")
+plt.savefig("Subscription_count.png")
 
 # Create a new column for the cumulative sum in the sub data frame.
 subdf["Total"]= subdf["Sub count"].cumsum()
 
 # Create a new data frame from the sub data frame with desire columns.
 cumdf = subdf[["Sub month","Total"]].copy()
+
+# Plot a graph of the total subscribers.
+cumdf.plot(x="Sub month",y="Total",kind='line', title="Total Subscribers",legend=False,color="b")
+
+# Format the graph and axis.
+plt.xticks(range(len(cumdf)),cumdf["Sub month"],size="small",rotation=270)
+plt.xlabel("Month")
+plt.ylabel("Total Subscribers")
+plt.tight_layout()
+
+# Export data frame into image.
+plt.savefig("Total_subs.png")
 
 print(cumdf)
