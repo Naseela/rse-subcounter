@@ -10,6 +10,7 @@
 #-------------------------------------------------------------------------------
 
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import pandas as pd
 import numpy as np
 
@@ -23,7 +24,7 @@ df["Sub month"]=df["Sub date"].map(lambda x: x.lstrip('0123456789').rstrip())
 
 # Convert string into datetime data type then format and overwrite column.
 df["Month"]=pd.to_datetime(df["Sub month"])
-df["Month"]=df["Month"].dt.strftime('%m/%Y')
+df["Month"]=df["Month"].dt.strftime('%Y/%m')
 
 # Count the subscriptions per month.
 # Group months and create new column from the amount of times the group appears.
@@ -40,14 +41,27 @@ print (subdf)
 subdf.to_csv('Subscription_count.csv')
 
 # Plot data into line graph with setttings
-subdf.plot(x="Month", y="Sub count", kind='line', title="Subscriptions per Month", legend=False, color="r")
+fig, ax = plt.subplots()
+x = subdf["Month"]
+y = subdf["Sub count"]
 
-# Format settings on axis.
-plt.xticks(range(len(subdf)),df["Month"],size="small",rotation=270)
+ax.plot(x,y)
 
-plt.xticks(np.arange(0,len(subdf)+1, 1.0))
-plt.xlabel("Month")
-plt.ylabel("Subscriptions")
+fig.autofmt_xdate()
+
+ax.set_title("Subscriptions per Month")
+ax.set_xlabel("Month")
+ax.set_ylabel("Subscriptions")
+
+start, end = ax.get_xlim()
+major_ticks = np.arange(start, end,6)
+minor_ticks = np.arange(start,end)
+
+ax.set_xticks(major_ticks)
+ax.set_xticks(minor_ticks, minor=True)
+
+ax.set_xticklabels(subdf["Month"],)
+
 plt.tight_layout()
 
 # Export to png file.
