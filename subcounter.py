@@ -40,28 +40,42 @@ print (subdf)
 # Export the new data frame into a csv file.
 subdf.to_csv('Subscription_count.csv')
 
-# Plot data into line graph with setttings
+
+
+# Created variables needed for plotting.
 fig, ax = plt.subplots()
 x = subdf["Month"]
 y = subdf["Sub count"]
 
+# Create a new list with the desired tick labels.
+xticklist = x.tolist()
+print(xticklist)
+xticklist = xticklist[0::6]
+print(xticklist)
+
+
+# Plot data into line graph with setttings
 ax.plot(x,y)
 
+# Auto format the date labels on the x axis.
 fig.autofmt_xdate()
 
+# Set the title and labels for the graph.
 ax.set_title("Subscriptions per Month")
 ax.set_xlabel("Month")
 ax.set_ylabel("Subscriptions")
 
+# Set major and minor ticks for thhe x axis.
 start, end = ax.get_xlim()
-major_ticks = np.arange(start, end,6)
+major_ticks = np.arange(start+2, end,6)
 minor_ticks = np.arange(start,end)
-
 ax.set_xticks(major_ticks)
 ax.set_xticks(minor_ticks, minor=True)
 
-ax.set_xticklabels(subdf["Month"],)
+# Set the tick labels as the list with the desired scale.
+ax.set_xticklabels(xticklist)
 
+# Ensure the layout displays correctly.
 plt.tight_layout()
 
 # Export to png file.
