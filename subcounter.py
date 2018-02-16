@@ -2,10 +2,10 @@
 # Name: Subscription Counter
 # Purpose: Calculate the number of subscriptions made each month.
 #
-# Author:      rsg
+# Author:      Naseela Amboorallee
 #
 # Created:     13/02/2018
-# Copyright:   (c) rsg 2018
+# Copyright:   (c) Naseela Amboorallee 2018
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
@@ -24,7 +24,6 @@ def plotgraph(df_plot,file,title,xvalue,yvalue):
     :params: dataframe, file name, graph title, data frame columns
     :return: a png file of the plotted graph
     """
-
 
     # Created variables needed for plotting.
     fig, ax = plt.subplots()
